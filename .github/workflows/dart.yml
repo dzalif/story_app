@@ -23,9 +23,9 @@ jobs:
         run: flutter pub get
 
       - name: Set up Dart
-          uses: dart-lang/setup-dart@v1
-          with:
-            dart-sdk: stable
+        uses: dart-lang/setup-dart@v1
+        with:
+          dart-sdk: stable
 
       - name: Install dependencies
         run: dart pub get
