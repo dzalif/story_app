@@ -1,0 +1,1 @@
+enum StateStatus { iddle, loading, loaded, empty, error, uninitialized}

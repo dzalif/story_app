@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:story_app/data/api/api_service.dart';
+import 'package:story_app/presentation/bloc/register/register_bloc.dart';
 import 'package:story_app/presentation/ui/home_screen.dart';
 import 'package:story_app/presentation/ui/login_screen.dart';
 import 'package:story_app/presentation/ui/register_screen.dart';
 import 'package:story_app/presentation/ui/splash_screen.dart';
 import 'package:story_app/route/app_routes.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const StoryApp());
@@ -43,13 +47,18 @@ class StoryApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _router,
-      theme: ThemeData(
-          useMaterial3: true,
-          colorSchemeSeed: const Color.fromRGBO(255, 203, 133, 1.0),
-          progressIndicatorTheme:
-              const ProgressIndicatorThemeData(color: Colors.black54)),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => RegisterBloc(apiService: ApiService(http.Client())))
+      ],
+      child: MaterialApp.router(
+        routerConfig: _router,
+        theme: ThemeData(
+            useMaterial3: true,
+            colorSchemeSeed: const Color.fromRGBO(255, 203, 133, 1.0),
+            progressIndicatorTheme:
+                const ProgressIndicatorThemeData(color: Colors.black54)),
+      ),
     );
   }
 }
