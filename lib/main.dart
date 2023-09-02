@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:story_app/presentation/ui/home_screen.dart';
+import 'package:story_app/presentation/ui/login_screen.dart';
+import 'package:story_app/presentation/ui/register_screen.dart';
+import 'package:story_app/presentation/ui/splash_screen.dart';
+import 'package:story_app/route/app_routes.dart';
 
 void main() {
   runApp(const StoryApp());
@@ -9,10 +13,28 @@ void main() {
 final _router = GoRouter(
   routes: [
     GoRoute(
-      path: '/',
+      path: AppRoutes.splashScreen,
+      builder: (context, state) => const SplashScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.homeScreen,
       builder: (context, state) => const HomeScreen(),
     ),
-
+    GoRoute(
+        path: AppRoutes.loginScreen,
+        builder: (context, state) => const LoginScreen(),
+        routes: [
+          GoRoute(
+            path: AppRoutes.registerScreen,
+            builder: (BuildContext context, GoRouterState state) {
+              return const RegisterScreen();
+            },
+          )
+        ]),
+    // GoRoute(
+    //   path: AppRoutes.registerScreen,
+    //   builder: (context, state) => const RegisterScreen(),
+    // ),
   ],
 );
 
@@ -27,7 +49,7 @@ class StoryApp extends StatelessWidget {
           useMaterial3: true,
           colorSchemeSeed: const Color.fromRGBO(255, 203, 133, 1.0),
           progressIndicatorTheme:
-          const ProgressIndicatorThemeData(color: Colors.black54)),
+              const ProgressIndicatorThemeData(color: Colors.black54)),
     );
   }
 }
