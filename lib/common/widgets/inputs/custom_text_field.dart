@@ -95,6 +95,7 @@ class CustomTextField extends StatelessWidget with StyleGuideMixin {
         _buildLabel(context),
         TextFormField(
           onTap: onTap,
+          autovalidateMode: autovalidateMode,
           onChanged: onChanged,
           readOnly: readOnly,
           autofocus: autoFocus,

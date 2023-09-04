@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:story_app/common/utils/network/network_failure.dart';
 import 'package:story_app/data/model/login/login_response.dart';
@@ -39,23 +40,23 @@ class LoggingClient extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    print('---------- Request ----------');
-    print('${request.method} ${request.url}');
+    debugPrint('---------- Request ----------');
+    debugPrint('${request.method} ${request.url}');
     request.headers.forEach((name, value) {
-      print('$name: $value');
+      debugPrint('$name: $value');
     });
     if (request is http.Request) {
-      print('Body: ${request.body}');
+      debugPrint('Body: ${request.body}');
     }
 
     return _inner.send(request).then((response) {
-      print('---------- Response ----------');
-      print('Status: ${response.statusCode} ${response.reasonPhrase}');
+      debugPrint('---------- Response ----------');
+      debugPrint('Status: ${response.statusCode} ${response.reasonPhrase}');
       response.headers.forEach((name, value) {
-        print('$name: $value');
+        debugPrint('$name: $value');
       });
       response.stream.transform(utf8.decoder).listen((body) {
-        print('Body: $body');
+        debugPrint('Body: $body');
       });
       return response;
     });
