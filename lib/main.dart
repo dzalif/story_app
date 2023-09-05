@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:story_app/data/api/api_service.dart';
 import 'package:story_app/presentation/bloc/login/login_bloc.dart';
 import 'package:story_app/presentation/bloc/register/register_bloc.dart';
+import 'package:story_app/presentation/ui/add_story_screen.dart';
 import 'package:story_app/presentation/ui/home_screen.dart';
 import 'package:story_app/presentation/ui/login_screen.dart';
 import 'package:story_app/presentation/ui/register_screen.dart';
@@ -24,6 +25,14 @@ final _router = GoRouter(
     GoRoute(
       path: AppRoutes.homeScreen,
       builder: (context, state) => const HomeScreen(),
+      routes: [
+        GoRoute(
+          path: AppRoutes.addStoryScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            return const AddStoryScreen();
+          },
+        )
+      ]
     ),
     GoRoute(
         path: AppRoutes.loginScreen,

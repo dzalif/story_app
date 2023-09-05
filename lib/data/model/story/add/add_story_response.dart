@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class AddStoryResponse {
   bool error;
   String message;
@@ -7,13 +9,14 @@ class AddStoryResponse {
     required this.message,
   });
 
-  factory AddStoryResponse.fromJson(Map<String, dynamic> json) => AddStoryResponse(
-    error: json["error"],
-    message: json["message"],
-  );
 
-  Map<String, dynamic> toJson() => {
-    "error": error,
-    "message": message,
-  };
+  factory AddStoryResponse.fromMap(Map<String, dynamic> map) {
+    return AddStoryResponse(
+      error: map['error'] ?? false,
+      message: map['message'] ?? '',
+    );
+  }
+
+  factory AddStoryResponse.fromJson(String source) =>
+      AddStoryResponse.fromMap(json.decode(source));
 }
