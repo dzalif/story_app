@@ -13,3 +13,8 @@ class Login extends LoginEvent {
   List<Object?> get props => [request];
 
 }
+
+class GetName extends LoginEvent {
+  @override
+  List<Object?> get props => [];
+}

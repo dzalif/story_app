@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:story_app/data/api/api_service.dart';
+import 'package:story_app/presentation/bloc/image/image_bloc.dart';
 import 'package:story_app/presentation/bloc/login/login_bloc.dart';
 import 'package:story_app/presentation/bloc/register/register_bloc.dart';
 import 'package:story_app/presentation/ui/add_story_screen.dart';
@@ -56,7 +57,8 @@ class StoryApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => RegisterBloc(apiService: ApiService(http.Client()))),
-        BlocProvider(create: (_) => LoginBloc(apiService: ApiService(http.Client())))
+        BlocProvider(create: (_) => LoginBloc(apiService: ApiService(http.Client()))),
+        BlocProvider(create: (_) => ImageBloc())
       ],
       child: MaterialApp.router(
         routerConfig: _router,

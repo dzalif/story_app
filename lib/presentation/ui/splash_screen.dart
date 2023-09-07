@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:story_app/common/utils/constants/prefs_key.dart';
 
 import '../../route/app_routes.dart';
 
@@ -15,7 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToHome();
+    _checkIsLogin();
+    _navigateToLogin();
   }
 
   @override
@@ -26,9 +29,25 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void _navigateToHome() {
+  void _navigateToLogin() {
     Future.delayed(const Duration(seconds: 2), () {
       context.go(AppRoutes.loginScreen);
     });
+  }
+
+  void _navigateToHome() {
+    Future.delayed(const Duration(seconds: 2), () {
+      context.go(AppRoutes.homeScreen);
+    });
+  }
+
+  void _checkIsLogin() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString(PrefsKey.token);
+    if (token == null) {
+      _navigateToLogin();
+    } else {
+      _navigateToHome();
+    }
   }
 }

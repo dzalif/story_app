@@ -1,4 +1,5 @@
 class PrefsKey {
-  static const String isLoggedIn = "isLoggedIn";
+  static const String name = "name";
   static const String token = "token";
+
 }
