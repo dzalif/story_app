@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:story_app/common/utils/constants/prefs_key.dart';
 import 'package:story_app/common/utils/network/network_failure.dart';
 import 'package:story_app/data/model/login/login_request.dart';
 import 'package:story_app/data/model/login/login_response.dart';
@@ -51,10 +53,14 @@ class ApiService {
       filename: fileName,
     );
 
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.get(PrefsKey.token);
+
     final Map<String, String> fields = {
       "description": description,
     };
     final Map<String, String> headers = {
+      "Authorization": "Bearer $token",
       "Content-type": "multipart/form-data",
     };
 
@@ -72,6 +78,7 @@ class ApiService {
       final AddStoryResponse uploadResponse = AddStoryResponse.fromJson(
         responseData,
       );
+      print('Upload story success');
       return uploadResponse;
     } else {
       throw Exception("Upload file error");

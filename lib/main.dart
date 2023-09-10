@@ -5,6 +5,7 @@ import 'package:story_app/data/api/api_service.dart';
 import 'package:story_app/presentation/bloc/image/image_bloc.dart';
 import 'package:story_app/presentation/bloc/login/login_bloc.dart';
 import 'package:story_app/presentation/bloc/register/register_bloc.dart';
+import 'package:story_app/presentation/bloc/upload/upload_story_bloc.dart';
 import 'package:story_app/presentation/ui/add_story_screen.dart';
 import 'package:story_app/presentation/ui/home_screen.dart';
 import 'package:story_app/presentation/ui/login_screen.dart';
@@ -58,7 +59,8 @@ class StoryApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => RegisterBloc(apiService: ApiService(http.Client()))),
         BlocProvider(create: (_) => LoginBloc(apiService: ApiService(http.Client()))),
-        BlocProvider(create: (_) => ImageBloc())
+        BlocProvider(create: (_) => ImageBloc()),
+        BlocProvider(create: (_) => UploadStoryBloc(apiService: ApiService(http.Client()))),
       ],
       child: MaterialApp.router(
         routerConfig: _router,
