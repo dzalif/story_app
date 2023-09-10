@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:story_app/data/api/api_service.dart';
 import 'package:story_app/presentation/bloc/image/image_bloc.dart';
+import 'package:story_app/presentation/bloc/list/list_story_bloc.dart';
 import 'package:story_app/presentation/bloc/login/login_bloc.dart';
 import 'package:story_app/presentation/bloc/register/register_bloc.dart';
 import 'package:story_app/presentation/bloc/upload/upload_story_bloc.dart';
@@ -31,7 +33,7 @@ final _router = GoRouter(
         GoRoute(
           path: AppRoutes.addStoryScreen,
           builder: (BuildContext context, GoRouterState state) {
-            return const AddStoryScreen();
+            return BlocProvider(create: (_) => ImageBloc(), child: const AddStoryScreen());
           },
         )
       ]
@@ -50,17 +52,29 @@ final _router = GoRouter(
   ],
 );
 
-class StoryApp extends StatelessWidget {
+class StoryApp extends StatefulWidget {
   const StoryApp({Key? key}) : super(key: key);
 
+  @override
+  State<StoryApp> createState() => _StoryAppState();
+}
+
+class _StoryAppState extends State<StoryApp> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getApplicationDocumentsDirectory();
+  }
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => RegisterBloc(apiService: ApiService(http.Client()))),
         BlocProvider(create: (_) => LoginBloc(apiService: ApiService(http.Client()))),
-        BlocProvider(create: (_) => ImageBloc()),
         BlocProvider(create: (_) => UploadStoryBloc(apiService: ApiService(http.Client()))),
+        BlocProvider(create: (_) => ListStoryBloc(apiService: ApiService(http.Client()))),
       ],
       child: MaterialApp.router(
         routerConfig: _router,

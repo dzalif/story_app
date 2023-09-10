@@ -9,8 +9,10 @@ import 'package:story_app/common/widgets/snackbar/custom_snackbar.dart';
 import 'package:story_app/presentation/bloc/image/image_bloc.dart';
 import 'package:story_app/presentation/bloc/upload/upload_story_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:story_app/presentation/ui/register_screen.dart';
 
 import '../../route/app_routes.dart';
+import '../bloc/list/list_story_bloc.dart';
 
 class AddStoryScreen extends StatefulWidget {
   const AddStoryScreen({Key? key}) : super(key: key);
@@ -28,8 +30,12 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   Widget build(BuildContext context) {
     return BlocListener<UploadStoryBloc, UploadStoryState>(
       listener: (context, state) {
+        if (state.status == StateStatus.error) {
+          CustomSnackBar.showError(context, state.message);
+        }
         if (state.status == StateStatus.loaded) {
           CustomSnackBar.showSuccess(context, 'Upload story berhasil');
+          BlocProvider.of<ListStoryBloc>(context).add(GetStories());
           _navigateToHome();
         }
       },
@@ -67,7 +73,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                                   height: 200,
                                   decoration: BoxDecoration(color: Colors.grey[200],
                                       borderRadius: BorderRadius.circular(16),
-                                    image: DecorationImage(fit: BoxFit.fill, image: FileImage(File(image.path.toString())))
+                                    image: DecorationImage(fit: BoxFit.cover, image: FileImage(File(image.path.toString())))
                                   ),
                                 );
                               }
@@ -99,6 +105,12 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
+                  BlocBuilder<UploadStoryBloc, UploadStoryState>(builder: (context, state) {
+                    if (state.isLoading) {
+                      return const LoadingIndicator();
+                    }
+                    return const SizedBox();
+                  }),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(onPressed: () {
@@ -149,7 +161,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   },
                     child: Text('Camera', style: TextStyle(color: Theme.of(context).colorScheme.primary),)),
                 const SizedBox(height: 32),
-                Text('Galeri', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                GestureDetector(
+                  onTap: () {
+                    _pickImageGallery();
+                  },
+                    child: Text('Galeri', style: TextStyle(color: Theme.of(context).colorScheme.primary))),
               ],
             ),
           ),
@@ -176,5 +192,16 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
 
   void _navigateToHome() {
     context.go(AppRoutes.homeScreen);
+  }
+
+  void _pickImageGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedFile != null) {
+      _saveImage(pickedFile);
+    }
   }
 }

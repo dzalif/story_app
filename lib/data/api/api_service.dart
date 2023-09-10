@@ -8,6 +8,7 @@ import 'package:story_app/data/model/login/login_request.dart';
 import 'package:story_app/data/model/login/login_response.dart';
 import 'package:story_app/data/model/register/register_request.dart';
 import 'package:story_app/data/model/register/register_response.dart';
+import 'package:story_app/data/model/story/list/list_story_response.dart';
 
 import '../model/story/add/add_story_response.dart';
 
@@ -17,6 +18,24 @@ class ApiService {
   ApiService(this.client);
 
   static const String _baseUrl = 'https://story-api.dicoding.dev/v1';
+
+  Future<ListStoryResponse> getStories() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.get(PrefsKey.token);
+
+    final response = await client!.get(Uri.parse("$_baseUrl/stories"), headers: {
+      'Authorization': 'Bearer $token'
+    });
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return ListStoryResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 400) {
+      final errorResponse = ListStoryResponse.fromJson(json.decode(response.body));
+      throw FetchDataFailure(errorResponse.message);
+    } else {
+      throw Exception('Failed to get stories');
+    }
+  }
 
   Future<RegisterResponse> register(RegisterRequest request) async {
     final response = await client!.post(Uri.parse("$_baseUrl/register"), body: request.toJson());
@@ -46,7 +65,7 @@ class ApiService {
       List<int> bytes,
       String fileName,
       String description) async {
-    var request = http.MultipartRequest('POST', Uri.parse("$_baseUrl/stories"));
+    var request = http.MultipartRequest('POST', Uri.parse("$_baseUrl/stories?size=100"));
     final multiPartFile = http.MultipartFile.fromBytes(
       "photo",
       bytes,
@@ -74,12 +93,17 @@ class ApiService {
     final Uint8List responseList = await streamedResponse.stream.toBytes();
     final String responseData = String.fromCharCodes(responseList);
 
-    if (statusCode == 201) {
+    print('Status codenya adalah $statusCode');
+
+    if (statusCode == 201 || statusCode == 200) {
       final AddStoryResponse uploadResponse = AddStoryResponse.fromJson(
         responseData,
       );
       print('Upload story success');
       return uploadResponse;
+    } else if (statusCode == 413) {
+      final errorResponse = AddStoryResponse.fromJson(responseData);
+      throw FetchDataFailure(errorResponse.message);
     } else {
       throw Exception("Upload file error");
     }
