@@ -50,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('List story', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),),
                 const SizedBox(height: 16),
                 BlocBuilder<ListStoryBloc, ListStoryState>(
                   builder: (context, state) {

@@ -23,7 +23,7 @@ class ApiService {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.get(PrefsKey.token);
 
-    final response = await client!.get(Uri.parse("$_baseUrl/stories"), headers: {
+    final response = await client!.get(Uri.parse("$_baseUrl/stories?size=20"), headers: {
       'Authorization': 'Bearer $token'
     });
 
@@ -65,7 +65,7 @@ class ApiService {
       List<int> bytes,
       String fileName,
       String description) async {
-    var request = http.MultipartRequest('POST', Uri.parse("$_baseUrl/stories?size=100"));
+    var request = http.MultipartRequest('POST', Uri.parse("$_baseUrl/stories"));
     final multiPartFile = http.MultipartFile.fromBytes(
       "photo",
       bytes,
