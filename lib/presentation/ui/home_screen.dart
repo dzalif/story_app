@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       appBar: AppBar(title: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
-          return Text('Hi, ${state.name}', style: const TextStyle(fontWeight: FontWeight.bold),);
+          return const Text('Stories', style: TextStyle(fontWeight: FontWeight.bold),);
         })),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -85,7 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _initData() {
-    BlocProvider.of<LoginBloc>(context).add(GetName());
     BlocProvider.of<ListStoryBloc>(context).add(GetStories());
   }
 }

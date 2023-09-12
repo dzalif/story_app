@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:story_app/data/api/api_service.dart';
+import 'package:story_app/presentation/bloc/detail/detail_story_bloc.dart';
 import 'package:story_app/presentation/bloc/image/image_bloc.dart';
 import 'package:story_app/presentation/bloc/list/list_story_bloc.dart';
 import 'package:story_app/presentation/bloc/login/login_bloc.dart';
 import 'package:story_app/presentation/bloc/register/register_bloc.dart';
 import 'package:story_app/presentation/bloc/upload/upload_story_bloc.dart';
 import 'package:story_app/presentation/ui/add_story_screen.dart';
+import 'package:story_app/presentation/ui/detail_story_screen.dart';
 import 'package:story_app/presentation/ui/home_screen.dart';
 import 'package:story_app/presentation/ui/login_screen.dart';
 import 'package:story_app/presentation/ui/register_screen.dart';
@@ -30,6 +32,13 @@ final _router = GoRouter(
       path: AppRoutes.homeScreen,
       builder: (context, state) => const HomeScreen(),
       routes: [
+        GoRoute(
+          name: AppRoutes.detailStoryScreen,
+          path: 'detailStoryScreen:id',
+          builder: (BuildContext context, GoRouterState state) {
+            return DetailStoryScreen(id: state.pathParameters["id"]!,);
+          },
+        ),
         GoRoute(
           path: AppRoutes.addStoryScreen,
           builder: (BuildContext context, GoRouterState state) {
@@ -63,10 +72,10 @@ class _StoryAppState extends State<StoryApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getApplicationDocumentsDirectory();
   }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -75,6 +84,7 @@ class _StoryAppState extends State<StoryApp> {
         BlocProvider(create: (_) => LoginBloc(apiService: ApiService(http.Client()))),
         BlocProvider(create: (_) => UploadStoryBloc(apiService: ApiService(http.Client()))),
         BlocProvider(create: (_) => ListStoryBloc(apiService: ApiService(http.Client()))),
+        BlocProvider(create: (_) => DetailStoryBloc(apiService: ApiService(http.Client()))),
       ],
       child: MaterialApp.router(
         routerConfig: _router,
