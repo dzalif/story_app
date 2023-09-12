@@ -34,7 +34,6 @@ class DateFormatter {
   static toYYYYMMDDHHmmss(String? input) {
     var dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
     var date = dateFormat.parse(input!, true).toLocal();
-    print('Time zone name : ${date.timeZoneName}');
     var output = DateFormat('yyyy-MM-dd HH:mm:ss');
     return output.format(date);
   }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:story_app/common/utils/constants/prefs_key.dart';
 import 'package:story_app/data/model/story/list/list_story_response.dart';
 import 'package:story_app/presentation/bloc/list/list_story_bloc.dart';
-import 'package:story_app/presentation/bloc/login/login_bloc.dart';
 import 'package:story_app/presentation/ui/card_story.dart';
 
 import '../../common/utils/constants/state_status.dart';
@@ -34,10 +35,32 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: const Icon(Icons.add),),
       ),
-      appBar: AppBar(title: BlocBuilder<LoginBloc, LoginState>(
-        builder: (context, state) {
-          return const Text('Stories', style: TextStyle(fontWeight: FontWeight.bold),);
-        })),
+      appBar: AppBar(actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: GestureDetector(
+            onTap: () {
+              showDialog(context: context, builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Information'),
+                  content: const Text('Apakah anda yakin akan logout ?'),
+                  actions: [
+                    TextButton(onPressed: () {
+                      Navigator.pop(context);
+                    }, child: const Text('Batal')),
+                    TextButton(onPressed: () {
+                      _clearPrefs();
+                      Navigator.pop(context);
+                      _navigateToLogin();
+                    }, child: const Text('Logout', style: TextStyle(color: Colors.red),),)
+                  ],
+                );
+              });
+            },
+              child: const Icon(Icons.logout)),
+        )
+      ],
+          title: const Text('Stories', style: TextStyle(fontWeight: FontWeight.bold),)),
       body: RefreshIndicator(
         onRefresh: () async {
           await Future.delayed(const Duration(seconds: 1));
@@ -86,5 +109,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _initData() {
     BlocProvider.of<ListStoryBloc>(context).add(GetStories());
+  }
+
+  void _clearPrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(PrefsKey.token);
+    prefs.remove(PrefsKey.token);
+  }
+
+  void _navigateToLogin() {
+    context.go(AppRoutes.loginScreen);
   }
 }
