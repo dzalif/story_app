@@ -40,22 +40,23 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.only(right: 16.0),
           child: GestureDetector(
             onTap: () {
-              showDialog(context: context, builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Information'),
-                  content: const Text('Apakah anda yakin akan logout ?'),
-                  actions: [
-                    TextButton(onPressed: () {
-                      Navigator.pop(context);
-                    }, child: const Text('Batal')),
-                    TextButton(onPressed: () {
-                      _clearPrefs();
-                      Navigator.pop(context);
-                      _navigateToLogin();
-                    }, child: const Text('Logout', style: TextStyle(color: Colors.red),),)
-                  ],
-                );
-              });
+              // showDialog(context: context, builder: (BuildContext context) {
+              //   return AlertDialog(
+              //     title: const Text('Information'),
+              //     content: const Text('Apakah anda yakin akan logout ?'),
+              //     actions: [
+              //       TextButton(onPressed: () {
+              //         Navigator.pop(context);
+              //       }, child: const Text('Batal')),
+              //       TextButton(onPressed: () {
+              //         _clearPrefs();
+              //         Navigator.pop(context);
+              //         _navigateToLogin();
+              //       }, child: const Text('Logout', style: TextStyle(color: Colors.red),),)
+              //     ],
+              //   );
+              // });
+              context.go('${AppRoutes.homeScreen}/dialog');
             },
               child: const Icon(Icons.logout)),
         )
@@ -114,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _clearPrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove(PrefsKey.token);
-    prefs.remove(PrefsKey.token);
+    prefs.remove(PrefsKey.name);
   }
 
   void _navigateToLogin() {

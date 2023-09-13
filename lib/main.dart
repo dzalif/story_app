@@ -13,10 +13,13 @@ import 'package:story_app/presentation/ui/add_story_screen.dart';
 import 'package:story_app/presentation/ui/detail_story_screen.dart';
 import 'package:story_app/presentation/ui/home_screen.dart';
 import 'package:story_app/presentation/ui/login_screen.dart';
+import 'package:story_app/presentation/ui/logout_dialog.dart';
 import 'package:story_app/presentation/ui/register_screen.dart';
 import 'package:story_app/presentation/ui/splash_screen.dart';
 import 'package:story_app/route/app_routes.dart';
 import 'package:http/http.dart' as http;
+
+import 'common/widgets/dialog/custom_dialog.dart';
 
 void main() {
   runApp(const StoryApp());
@@ -44,7 +47,13 @@ final _router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return BlocProvider(create: (_) => ImageBloc(), child: const AddStoryScreen());
           },
-        )
+        ),
+        GoRoute(
+          path: 'dialog',
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return DialogPage(builder: (_) => const LogoutDialog());
+          },
+        ),
       ]
     ),
     GoRoute(

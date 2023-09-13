@@ -42,79 +42,81 @@ class _RegisterScreenState extends State<RegisterScreen> {
         }
       },
       child: Scaffold(
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.all(16), child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('REGISTER', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-              const SizedBox(height: 16),
-              CustomTextField(
-                key: _nameKey,
-                controller: _nameController,
-                hintText: 'Nama',
-                labelText: 'Nama',
-                validator: (String? value) {
-                  if (value!.isEmpty) {
-                    return 'Nama tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              CustomTextField(
-                key: _emailKey,
-                controller: _emailController,
-                hintText: 'Email',
-                labelText: 'Email',
-                textInputType: TextInputType.emailAddress,
-                validator: (String? value) {
-                  if (value!.isEmpty) {
-                    return 'Email tidak boleh kosong';
-                  }
-                  if (!_isValidEmail(value)) {
-                    return 'Email tidak valid';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              CustomTextField(
-                key: _passwordKey,
-                controller: _passwordController,
-                hintText: 'Password',
-                labelText: 'Password',
-                obscureText: true,
-                maxLength: 8,
-                validator: (String? value) {
-                  if (value!.isEmpty) {
-                    return 'Password tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              BlocBuilder<RegisterBloc, RegisterState>(builder: (context, state) {
-                if (state.isLoading) {
-                  return const LoadingIndicator();
-                }
-                return const SizedBox();
-              }),
-              SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      var request = RegisterRequest(name: _nameController.text, email: _emailController.text, password: _passwordController.text);
-                      BlocProvider.of<RegisterBloc>(context).add(Register(request: request));
+        body: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(16), child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('REGISTER', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                const SizedBox(height: 16),
+                CustomTextField(
+                  key: _nameKey,
+                  controller: _nameController,
+                  hintText: 'Nama',
+                  labelText: 'Nama',
+                  validator: (String? value) {
+                    if (value!.isEmpty) {
+                      return 'Nama tidak boleh kosong';
                     }
-                  }, child: const Text('REGISTER'))),
-              const SizedBox(height: 8),
-            ],
-          ),
-        ),),
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomTextField(
+                  key: _emailKey,
+                  controller: _emailController,
+                  hintText: 'Email',
+                  labelText: 'Email',
+                  textInputType: TextInputType.emailAddress,
+                  validator: (String? value) {
+                    if (value!.isEmpty) {
+                      return 'Email tidak boleh kosong';
+                    }
+                    if (!_isValidEmail(value)) {
+                      return 'Email tidak valid';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomTextField(
+                  key: _passwordKey,
+                  controller: _passwordController,
+                  hintText: 'Password',
+                  labelText: 'Password',
+                  obscureText: true,
+                  maxLength: 8,
+                  validator: (String? value) {
+                    if (value!.isEmpty) {
+                      return 'Password tidak boleh kosong';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                BlocBuilder<RegisterBloc, RegisterState>(builder: (context, state) {
+                  if (state.isLoading) {
+                    return const LoadingIndicator();
+                  }
+                  return const SizedBox();
+                }),
+                SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        var request = RegisterRequest(name: _nameController.text, email: _emailController.text, password: _passwordController.text);
+                        BlocProvider.of<RegisterBloc>(context).add(Register(request: request));
+                      }
+                    }, child: const Text('REGISTER'))),
+                const SizedBox(height: 8),
+              ],
+            ),
+          ),),
+        ),
       ),
     );
   }
