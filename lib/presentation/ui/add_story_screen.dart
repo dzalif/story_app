@@ -147,6 +147,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   void _showBottomSheet() {
     showModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       builder: (BuildContext context) {
         return Container(
           padding: const EdgeInsets.all(16),
@@ -187,7 +188,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
 
   void _saveImage(XFile pickedFile) {
     BlocProvider.of<ImageBloc>(context).add(SaveImage(file: pickedFile));
-    Navigator.pop(context);
+    context.pop();
   }
 
   void _navigateToHome() {
