@@ -24,6 +24,7 @@ class AddStoryScreen extends StatefulWidget {
 class _AddStoryScreenState extends State<AddStoryScreen> {
   final _descriptionKey = GlobalKey<FormFieldState>();
   final _descriptionController = TextEditingController();
+  final _locationController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -111,6 +112,16 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     }
                     return const SizedBox();
                   }),
+                  const SizedBox(height: 8),
+                  CustomTextField(
+                    onTap: () {
+                      context.goNamed(AppRoutes.locationPickerScreen);
+                    },
+                    controller: _locationController,
+                    labelText: 'Lokasi',
+                    hintText: 'Masukkan lokasi..',
+                  ),
+                  const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(onPressed: () {

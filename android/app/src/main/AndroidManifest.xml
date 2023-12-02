@@ -11,6 +11,10 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC9PUIVz6jOopnRPUYlcWDvdY9uE_Vrp5k" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

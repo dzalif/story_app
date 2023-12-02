@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:story_app/common/utils/constants/prefs_key.dart';
 import 'package:story_app/data/model/story/list/list_story_response.dart';
 import 'package:story_app/presentation/bloc/list/list_story_bloc.dart';
 import 'package:story_app/presentation/ui/card_story.dart';
@@ -94,15 +92,5 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _initData() {
     BlocProvider.of<ListStoryBloc>(context).add(GetStories());
-  }
-
-  void _clearPrefs() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove(PrefsKey.token);
-    prefs.remove(PrefsKey.name);
-  }
-
-  void _navigateToLogin() {
-    context.go(AppRoutes.loginScreen);
   }
 }

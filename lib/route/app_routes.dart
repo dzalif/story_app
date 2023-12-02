@@ -6,4 +6,5 @@ abstract class AppRoutes {
   static const String registerScreen = 'registerScreen';
   static const String addStoryScreen = 'addStoryScreen';
   static const String detailStoryScreen = 'detail';
+  static const String locationPickerScreen = 'locationPickerScreen';
 }

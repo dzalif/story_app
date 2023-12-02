@@ -6,12 +6,14 @@ import 'package:story_app/data/api/api_service.dart';
 import 'package:story_app/presentation/bloc/detail/detail_story_bloc.dart';
 import 'package:story_app/presentation/bloc/image/image_bloc.dart';
 import 'package:story_app/presentation/bloc/list/list_story_bloc.dart';
+import 'package:story_app/presentation/bloc/location/location_bloc.dart';
 import 'package:story_app/presentation/bloc/login/login_bloc.dart';
 import 'package:story_app/presentation/bloc/register/register_bloc.dart';
 import 'package:story_app/presentation/bloc/upload/upload_story_bloc.dart';
 import 'package:story_app/presentation/ui/add_story_screen.dart';
 import 'package:story_app/presentation/ui/detail_story_screen.dart';
 import 'package:story_app/presentation/ui/home_screen.dart';
+import 'package:story_app/presentation/ui/location_picker_screen.dart';
 import 'package:story_app/presentation/ui/login_screen.dart';
 import 'package:story_app/presentation/ui/logout_dialog.dart';
 import 'package:story_app/presentation/ui/register_screen.dart';
@@ -47,6 +49,15 @@ final _router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return BlocProvider(create: (_) => ImageBloc(), child: const AddStoryScreen());
           },
+          routes: [
+            GoRoute(
+              name: AppRoutes.locationPickerScreen,
+              path: 'locationPickerScreen',
+              builder: (BuildContext context, GoRouterState state) {
+                return BlocProvider(create: (_) => LocationBloc(), child: const LocationPickerScreen());
+              },
+            ),
+          ]
         ),
         GoRoute(
           path: 'dialog',
