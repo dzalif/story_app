@@ -1,13 +1,15 @@
 import 'dart:convert';
 
-class AddStoryResponse {
-  bool error;
-  String message;
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'add_story_response.g.dart';
+part 'add_story_response.freezed.dart';
 
-  AddStoryResponse({
-    required this.error,
-    required this.message,
-  });
+@freezed
+class AddStoryResponse with _$AddStoryResponse {
+  const factory AddStoryResponse({
+    required bool error,
+    required String message,
+  }) = _AddStoryResponse;
 
 
   factory AddStoryResponse.fromMap(Map<String, dynamic> map) {
@@ -17,6 +19,5 @@ class AddStoryResponse {
     );
   }
 
-  factory AddStoryResponse.fromJson(String source) =>
-      AddStoryResponse.fromMap(json.decode(source));
+  factory AddStoryResponse.fromJson(String source) => _$AddStoryResponseFromJson(json.decode(source));
 }
