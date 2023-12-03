@@ -5,6 +5,10 @@ abstract class ListStoryEvent extends Equatable {
 }
 
 class GetStories extends ListStoryEvent {
+  final int? page;
+
+  const GetStories({required this.page});
+
   @override
   List<Object?> get props => [];
 }

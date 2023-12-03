@@ -20,11 +20,11 @@ class ApiService {
 
   static const String _baseUrl = 'https://story-api.dicoding.dev/v1';
 
-  Future<ListStoryResponse> getStories() async {
+  Future<ListStoryResponse> getStories(int? pageItems, int sizeItems) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.get(PrefsKey.token);
 
-    final response = await client!.get(Uri.parse("$_baseUrl/stories?size=20"), headers: {
+    final response = await client!.get(Uri.parse("$_baseUrl/stories?page=$pageItems&size=$sizeItems"), headers: {
       'Authorization': 'Bearer $token'
     });
 

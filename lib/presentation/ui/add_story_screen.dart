@@ -37,7 +37,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
         }
         if (state.status == StateStatus.loaded) {
           CustomSnackBar.showSuccess(context, 'Upload story berhasil');
-          BlocProvider.of<ListStoryBloc>(context).add(GetStories());
+          BlocProvider.of<ListStoryBloc>(context).add(const GetStories(page: 1));
           _navigateToHome();
         }
       },

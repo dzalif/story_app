@@ -4,22 +4,30 @@ class ListStoryState extends Equatable {
   final StateStatus status;
   final List<Story>? data;
   final String? message;
+  final bool? hasReachedEnd;
+  final int? page;
 
   const ListStoryState({
     this.status = StateStatus.iddle,
     this.data,
-    this.message
+    this.message,
+    this.hasReachedEnd,
+    this.page
   });
 
   ListStoryState copyWith({
     StateStatus? status,
     List<Story>? data,
     String? message,
+    bool? hasReachedEnd,
+    int? page
   }) {
     return ListStoryState(
         status: status ?? this.status,
         data: data ?? this.data,
-        message: message ?? this.message
+        message: message ?? this.message,
+        hasReachedEnd: hasReachedEnd ?? this.hasReachedEnd,
+        page: page ?? this.page
     );
   }
 
@@ -29,6 +37,8 @@ class ListStoryState extends Equatable {
   List<Object?> get props => [
     status,
     data,
-    message
+    message,
+    hasReachedEnd,
+    page
   ];
 }
