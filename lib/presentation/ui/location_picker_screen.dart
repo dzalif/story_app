@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart' as geo;
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:story_app/common/utils/constants/state_status.dart';
-import 'package:story_app/common/widgets/buttons/custom_main_button.dart';
 import 'package:story_app/presentation/bloc/location/location_bloc.dart';
 
 class LocationPickerScreen extends StatefulWidget {
@@ -137,7 +137,7 @@ class PlacemarkWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 ElevatedButton(onPressed: () {
-
+                  context.pop();
                 }, child: const Text('Set Lokasi'))
               ],
             ),

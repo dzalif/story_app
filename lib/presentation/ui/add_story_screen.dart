@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding_platform_interface/src/models/placemark.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:story_app/common/utils/constants/state_status.dart';
 import 'package:story_app/common/widgets/inputs/custom_text_field.dart';
 import 'package:story_app/common/widgets/snackbar/custom_snackbar.dart';
 import 'package:story_app/presentation/bloc/image/image_bloc.dart';
+import 'package:story_app/presentation/bloc/location/location_bloc.dart';
 import 'package:story_app/presentation/bloc/upload/upload_story_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:story_app/presentation/ui/register_screen.dart';
@@ -65,17 +67,21 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                                 return Container(
                                   width: 200,
                                   height: 200,
-                                  decoration: BoxDecoration(color: Colors.grey[200],
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[200],
                                       borderRadius: BorderRadius.circular(16)),
                                 );
                               } else {
                                 return Container(
                                   width: 200,
                                   height: 200,
-                                  decoration: BoxDecoration(color: Colors.grey[200],
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[200],
                                       borderRadius: BorderRadius.circular(16),
-                                    image: DecorationImage(fit: BoxFit.cover, image: FileImage(File(image.path.toString())))
-                                  ),
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: FileImage(
+                                              File(image.path.toString())))),
                                 );
                               }
                             },
@@ -84,7 +90,8 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                         BlocBuilder<ImageBloc, ImageState>(
                           builder: (context, state) {
                             if (state.file == null) {
-                              return Icon(Icons.add_a_photo_outlined, size: 32, color: Colors.grey[400]);
+                              return Icon(Icons.add_a_photo_outlined,
+                                  size: 32, color: Colors.grey[400]);
                             } else {
                               return const SizedBox();
                             }
@@ -97,7 +104,9 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   CustomTextField(
                     key: _descriptionKey,
                     controller: _descriptionController,
-                    labelText: 'Deskripsi', maxLines: 3, hintText: 'Masukkan deskripsi..',
+                    labelText: 'Deskripsi',
+                    maxLines: 3,
+                    hintText: 'Masukkan deskripsi..',
                     validator: (String? value) {
                       if (value!.isEmpty) {
                         return 'Deskripsi tidak boleh kosong';
@@ -106,35 +115,62 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  BlocBuilder<UploadStoryBloc, UploadStoryState>(builder: (context, state) {
+                  BlocBuilder<LocationBloc, LocationState>(
+                    builder: (context, state) {
+                      return CustomTextField(
+                        onTap: () {
+                          context.goNamed(AppRoutes.locationPickerScreen);
+                        },
+                        controller: TextEditingController(
+                            text: state.placeMarkInfo == null
+                                ? ''
+                                : _getAddress(state.placeMarkInfo)),
+                        labelText: 'Lokasi',
+                        hintText: 'Masukkan lokasi..',
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Lokasi tidak boleh kosong';
+                          }
+                          return null;
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  BlocBuilder<UploadStoryBloc, UploadStoryState>(
+                      builder: (context, state) {
                     if (state.isLoading) {
                       return const LoadingIndicator();
                     }
                     return const SizedBox();
                   }),
-                  const SizedBox(height: 8),
-                  CustomTextField(
-                    onTap: () {
-                      context.goNamed(AppRoutes.locationPickerScreen);
-                    },
-                    controller: _locationController,
-                    labelText: 'Lokasi',
-                    hintText: 'Masukkan lokasi..',
-                  ),
                   const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(onPressed: () {
-                      if (!isImageValid()) {
-                        CustomSnackBar.showError(context, 'Silahkan upload gambar terlebih dahulu.');
-                      } else {
-                        if (_formKey.currentState!.validate()) {
-                          final imageBloc = BlocProvider.of<ImageBloc>(context);
-                          final file = imageBloc.state.file;
-                          BlocProvider.of<UploadStoryBloc>(context).add(UploadStory(file: file, description: _descriptionController.text));
-                        }
-                      }
-                    }, child: const Text('Upload Story')),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (!isImageValid()) {
+                            CustomSnackBar.showError(context,
+                                'Silahkan upload gambar terlebih dahulu.');
+                          } else {
+                            if (_formKey.currentState!.validate()) {
+                              final imageBloc =
+                                  BlocProvider.of<ImageBloc>(context);
+                              final locationBloc =
+                                  BlocProvider.of<LocationBloc>(context);
+                              final currentLocation =
+                                  locationBloc.state.currentLocation;
+                              final file = imageBloc.state.file;
+                              BlocProvider.of<UploadStoryBloc>(context).add(
+                                  UploadStory(
+                                      file: file,
+                                      description: _descriptionController.text,
+                                      lat: currentLocation?.latitude,
+                                      lon: currentLocation?.longitude));
+                            }
+                          }
+                        },
+                        child: const Text('Upload Story')),
                   )
                 ],
               ),
@@ -168,16 +204,22 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    _pickImage();
-                  },
-                    child: Text('Camera', style: TextStyle(color: Theme.of(context).colorScheme.primary),)),
+                    onTap: () {
+                      _pickImage();
+                    },
+                    child: Text(
+                      'Camera',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    )),
                 const SizedBox(height: 32),
                 GestureDetector(
-                  onTap: () {
-                    _pickImageGallery();
-                  },
-                    child: Text('Galeri', style: TextStyle(color: Theme.of(context).colorScheme.primary))),
+                    onTap: () {
+                      _pickImageGallery();
+                    },
+                    child: Text('Galeri',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary))),
               ],
             ),
           ),
@@ -215,5 +257,13 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     if (pickedFile != null) {
       _saveImage(pickedFile);
     }
+  }
+
+  _getAddress(List<Placemark>? placeMarkInfo) {
+    final place = placeMarkInfo![0];
+    final street = place.street;
+    final address =
+        '${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    return '$street $address';
   }
 }

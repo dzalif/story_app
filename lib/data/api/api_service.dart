@@ -47,7 +47,8 @@ class ApiService {
     });
 
     if (response.statusCode == 201 || response.statusCode == 200) {
-      return DetailStoryResponse.fromJson(json.decode(response.body));
+      var result = DetailStoryResponse.fromJson(json.decode(response.body));
+      return result;
     } else if (response.statusCode == 400) {
       final errorResponse = ListStoryResponse.fromJson(json.decode(response.body));
       throw FetchDataFailure(errorResponse.message);
@@ -83,7 +84,7 @@ class ApiService {
   Future<AddStoryResponse> addStory(
       List<int> bytes,
       String fileName,
-      String description) async {
+      String description, double? lat, double? lon) async {
     var request = http.MultipartRequest('POST', Uri.parse("$_baseUrl/stories"));
     final multiPartFile = http.MultipartFile.fromBytes(
       "photo",
@@ -96,7 +97,10 @@ class ApiService {
 
     final Map<String, String> fields = {
       "description": description,
+      "lat": lat.toString(),
+      "lon": lon.toString()
     };
+
     final Map<String, String> headers = {
       "Authorization": "Bearer $token",
       "Content-type": "multipart/form-data",

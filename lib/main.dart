@@ -54,7 +54,7 @@ final _router = GoRouter(
               name: AppRoutes.locationPickerScreen,
               path: 'locationPickerScreen',
               builder: (BuildContext context, GoRouterState state) {
-                return BlocProvider(create: (_) => LocationBloc(), child: const LocationPickerScreen());
+                return const LocationPickerScreen();
               },
             ),
           ]
@@ -105,6 +105,7 @@ class _StoryAppState extends State<StoryApp> {
         BlocProvider(create: (_) => UploadStoryBloc(apiService: ApiService(http.Client()))),
         BlocProvider(create: (_) => ListStoryBloc(apiService: ApiService(http.Client()))),
         BlocProvider(create: (_) => DetailStoryBloc(apiService: ApiService(http.Client()))),
+        BlocProvider(create: (_) => LocationBloc())
       ],
       child: MaterialApp.router(
         routerConfig: _router,

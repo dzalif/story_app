@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart' as geo;
@@ -14,6 +15,7 @@ part 'location_state.dart';
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   LocationBloc() : super(const LocationState()) {
     on<GetLocation>(mapLocationToState);
+    on<ResetLocation>(mapResetLocationToState);
   }
 
   FutureOr<void> mapLocationToState(GetLocation event, Emitter<LocationState> emit) async {
@@ -39,7 +41,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     if (!serviceEnabled) {
       serviceEnabled = await location.requestService();
       if (!serviceEnabled) {
-        print("Location services is not available");
+        debugPrint("Location services is not available");
       }
     }
 
@@ -47,7 +49,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     if (permissionGranted == PermissionStatus.denied) {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
-        print("Location permission is denied");
+        debugPrint("Location permission is denied");
       }
     }
 
@@ -60,5 +62,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     final info =
         await geo.placemarkFromCoordinates(currentLocation.latitude, currentLocation.longitude);
     return info;
+  }
+
+  FutureOr<void> mapResetLocationToState(ResetLocation event, Emitter<LocationState> emit) {
+    emit(const LocationState());
   }
 }

@@ -24,7 +24,7 @@ class UploadStoryBloc extends Bloc<UploadStoryEvent, UploadStoryState> {
     try {
       emit(state.copyWith(status: StateStatus.loading));
       final compressedFile = await compressImage(await event.file!.readAsBytes());
-      final data = await apiService.addStory(compressedFile, event.file!.name, event.description!);
+      final data = await apiService.addStory(compressedFile, event.file!.name, event.description!, event.lat, event.lon);
       emit(state.copyWith(status: StateStatus.loaded, message: data.message));
     } catch (e) {
       if (e is FetchDataFailure) {

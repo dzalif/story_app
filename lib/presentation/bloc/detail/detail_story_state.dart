@@ -4,22 +4,26 @@ class DetailStoryState extends Equatable {
   final StateStatus status;
   final Story? data;
   final String? message;
+  final String? address;
 
   const DetailStoryState({
     this.status = StateStatus.iddle,
     this.data,
-    this.message
+    this.message,
+    this.address
   });
 
   DetailStoryState copyWith({
     StateStatus? status,
     Story? data,
     String? message,
+    String? address
   }) {
     return DetailStoryState(
         status: status ?? this.status,
         data: data ?? this.data,
-        message: message ?? this.message
+        message: message ?? this.message,
+        address: address ?? this.address
     );
   }
 
@@ -29,6 +33,7 @@ class DetailStoryState extends Equatable {
   List<Object?> get props => [
     status,
     data,
-    message
+    message,
+    address
   ];
 }

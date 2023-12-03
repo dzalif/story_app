@@ -8,3 +8,8 @@ class GetLocation extends LocationEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ResetLocation extends LocationEvent {
+  @override
+  List<Object?> get props => [];
+}
