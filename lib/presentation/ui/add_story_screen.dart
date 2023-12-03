@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocoding_platform_interface/src/models/placemark.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:story_app/common/utils/constants/state_status.dart';
 import 'package:story_app/common/widgets/inputs/custom_text_field.dart';
@@ -26,7 +26,6 @@ class AddStoryScreen extends StatefulWidget {
 class _AddStoryScreenState extends State<AddStoryScreen> {
   final _descriptionKey = GlobalKey<FormFieldState>();
   final _descriptionController = TextEditingController();
-  final _locationController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
