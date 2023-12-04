@@ -24,8 +24,13 @@ class DetailStoryBloc extends Bloc<DetailStoryEvent, DetailStoryState> {
     try {
       emit(state.copyWith(status: StateStatus.loading));
       final data = await apiService.getDetailStory(event.id);
-      final address = await _getAddress(data.story.lat, data.story.lon);
-      emit(state.copyWith(status: StateStatus.loaded, message: data.message, data: data.story, address: address));
+      var address = '';
+      List<geo.Placemark> info = [];
+      if (data.story.lat != null && data.story.lon != null) {
+        address = await _getAddress(data.story.lat, data.story.lon);
+        info = await geo.placemarkFromCoordinates(data.story.lat!, data.story.lon!);
+      }
+      emit(state.copyWith(status: StateStatus.loaded, message: data.message, data: data.story, address: address, info: info));
     } catch (e) {
       if (e is FetchDataFailure) {
         emit(state.copyWith(status: StateStatus.error, message: e.message));

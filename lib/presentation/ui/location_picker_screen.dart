@@ -7,7 +7,7 @@ import 'package:story_app/common/utils/constants/state_status.dart';
 import 'package:story_app/presentation/bloc/location/location_bloc.dart';
 
 class LocationPickerScreen extends StatefulWidget {
-  const LocationPickerScreen({Key? key}) : super(key: key);
+  const LocationPickerScreen({super.key});
 
   @override
   State<LocationPickerScreen> createState() => _LocationPickerScreenState();

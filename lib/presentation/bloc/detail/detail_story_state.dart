@@ -5,25 +5,29 @@ class DetailStoryState extends Equatable {
   final Story? data;
   final String? message;
   final String? address;
+  final List<geo.Placemark>? info;
 
   const DetailStoryState({
     this.status = StateStatus.iddle,
     this.data,
     this.message,
-    this.address
+    this.address,
+    this.info
   });
 
   DetailStoryState copyWith({
     StateStatus? status,
     Story? data,
     String? message,
-    String? address
+    String? address,
+    final List<geo.Placemark>? info
   }) {
     return DetailStoryState(
         status: status ?? this.status,
         data: data ?? this.data,
         message: message ?? this.message,
-        address: address ?? this.address
+        address: address ?? this.address,
+        info: info ?? this.info
     );
   }
 
@@ -34,6 +38,7 @@ class DetailStoryState extends Equatable {
     status,
     data,
     message,
-    address
+    address,
+    info
   ];
 }
