@@ -42,7 +42,6 @@ class StyleGuide {
   static ColorScheme _colorScheme(Brightness brightness) {
     return ColorScheme(
       primary: CustomColor.primary,
-      primaryVariant: CustomColor.primaryVariant,
       onPrimary: CustomColor.background,
       secondary: CustomColor.secondary,
       onSecondary: CustomColor.background,
