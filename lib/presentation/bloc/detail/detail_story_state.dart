@@ -12,7 +12,7 @@ class DetailStoryState extends Equatable {
     this.data,
     this.message,
     this.address,
-    this.info
+    this.info,
   });
 
   DetailStoryState copyWith({
@@ -20,14 +20,14 @@ class DetailStoryState extends Equatable {
     Story? data,
     String? message,
     String? address,
-    final List<geo.Placemark>? info
+    final List<geo.Placemark>? info,
   }) {
     return DetailStoryState(
         status: status ?? this.status,
         data: data ?? this.data,
         message: message ?? this.message,
         address: address ?? this.address,
-        info: info ?? this.info
+        info: info ?? this.info,
     );
   }
 
@@ -39,6 +39,6 @@ class DetailStoryState extends Equatable {
     data,
     message,
     address,
-    info
+    info,
   ];
 }

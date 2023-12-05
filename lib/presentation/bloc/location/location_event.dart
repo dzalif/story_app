@@ -9,6 +9,15 @@ class GetLocation extends LocationEvent {
   List<Object?> get props => [];
 }
 
+class UpdateLocation extends LocationEvent {
+  final LatLng currentLocation;
+
+  const UpdateLocation({required this.currentLocation});
+
+  @override
+  List<Object?> get props => [currentLocation];
+}
+
 class ResetLocation extends LocationEvent {
   @override
   List<Object?> get props => [];

@@ -82,7 +82,7 @@ final _router = GoRouter(
 );
 
 class StoryApp extends StatefulWidget {
-  const StoryApp({Key? key}) : super(key: key);
+  const StoryApp({super.key});
 
   @override
   State<StoryApp> createState() => _StoryAppState();

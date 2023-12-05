@@ -16,7 +16,7 @@ class CustomMainButton extends StatelessWidget with StyleGuideMixin {
   final double? width;
 
   const CustomMainButton({
-    Key? key,
+    super.key,
     required this.text,
     this.isLoading = false,
     this.onTap,
@@ -25,7 +25,7 @@ class CustomMainButton extends StatelessWidget with StyleGuideMixin {
     this.height,
     this.borderColor,
     this.width
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

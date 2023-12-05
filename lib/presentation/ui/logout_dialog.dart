@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../route/app_routes.dart';
 
 class LogoutDialog extends StatelessWidget {
-  const LogoutDialog({Key? key}) : super(key: key);
+  const LogoutDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -49,7 +49,6 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                 ),
               );
               markers.add(marker);
-
               return Stack(
                 children: [
                   GoogleMap(
@@ -73,7 +72,10 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                       });
                     },
                     onLongPress: (LatLng latLng) {
-                      // onLongPressGoogleMap(latLng);
+                      onLongPressGoogleMap(latLng);
+                      mapController.animateCamera(
+                        CameraUpdate.newLatLng(latLng),
+                      );
                     },
                   ),
                   Positioned(
@@ -96,6 +98,11 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
 
   void _initLocation() {
     BlocProvider.of<LocationBloc>(context).add(GetLocation());
+  }
+
+  void onLongPressGoogleMap(LatLng latLng) {
+    BlocProvider.of<LocationBloc>(context)
+        .add(UpdateLocation(currentLocation: latLng));
   }
 }
 

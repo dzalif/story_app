@@ -32,7 +32,7 @@ class CustomTextField extends StatelessWidget with StyleGuideMixin {
   final String? prefixText;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     this.labelText,
     this.onTap,
     this.onChanged,
@@ -57,7 +57,7 @@ class CustomTextField extends StatelessWidget with StyleGuideMixin {
     this.inputFormatters,
     this.prefixIcon,
     this.prefixText
-  }) : super(key: key);
+  });
 
   InputBorder? get _border {
     return OutlineInputBorder(

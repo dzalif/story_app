@@ -17,7 +17,7 @@ import '../../route/app_routes.dart';
 import '../bloc/list/list_story_bloc.dart';
 
 class AddStoryScreen extends StatefulWidget {
-  const AddStoryScreen({Key? key}) : super(key: key);
+  const AddStoryScreen({super.key});
 
   @override
   State<AddStoryScreen> createState() => _AddStoryScreenState();

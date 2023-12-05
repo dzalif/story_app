@@ -15,6 +15,7 @@ part 'location_state.dart';
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   LocationBloc() : super(const LocationState()) {
     on<GetLocation>(mapLocationToState);
+    on<UpdateLocation>(mapUpdateLocationToState);
     on<ResetLocation>(mapResetLocationToState);
   }
 
@@ -66,5 +67,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   FutureOr<void> mapResetLocationToState(ResetLocation event, Emitter<LocationState> emit) {
     emit(const LocationState());
+  }
+
+  FutureOr<void> mapUpdateLocationToState(UpdateLocation event, Emitter<LocationState> emit) async {
+    final placeMarkInfo = await _getPlaceMarkInfo(event.currentLocation);
+    emit(state.copyWith(status: StateStatus.loaded, currentLocation: event.currentLocation, placeMarkInfo: placeMarkInfo));
   }
 }

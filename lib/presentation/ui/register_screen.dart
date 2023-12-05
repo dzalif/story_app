@@ -7,7 +7,7 @@ import 'package:story_app/data/model/register/register_request.dart';
 import 'package:story_app/presentation/bloc/register/register_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -129,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 }
 
 class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({Key? key}) : super(key: key);
+  const LoadingIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {

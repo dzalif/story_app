@@ -9,11 +9,11 @@ class CircularProgressBox extends StatelessWidget with StyleGuideMixin {
   final Color color;
 
   const CircularProgressBox({
-    Key? key,
+    super.key,
     this.width = 17.0,
     this.height = 17.0,
     this.color = CustomColor.background,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

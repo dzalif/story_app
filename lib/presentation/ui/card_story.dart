@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 class CardStory extends StatelessWidget {
   final Story data;
 
-  const CardStory({Key? key, required this.data}) : super(key: key);
+  const CardStory({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

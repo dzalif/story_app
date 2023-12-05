@@ -11,7 +11,7 @@ import 'package:story_app/route/app_routes.dart';
 import '../../common/widgets/snackbar/custom_snackbar.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
